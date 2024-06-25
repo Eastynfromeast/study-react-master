@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from "styled-components";
+
+const Father = styled.div`
+	display: flex;
+`;
+const Child = styled.div`
+	width: 100px;
+	height: 100px;
+	background-color: skyblue;
+	&:last-of-type {
+		background-color: yellowgreen;
+	}
+`;
+
+const Text = styled.span`
+	color: white;
+`;
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<Father>
+			<Child>
+				<Text>Hello</Text>
+			</Child>
+			<Child />
+		</Father>
+	);
 }
 
 export default App;
