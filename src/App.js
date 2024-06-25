@@ -1,24 +1,30 @@
 import styled from "styled-components";
 
-const Father = styled.div`
+const Container = styled.div`
 	display: flex;
 `;
-const Box = styled.div`
-	width: 100px;
-	height: 100px;
-	background-color: ${props => props.bgColor};
+
+const Btn = styled.button`
+	border: none;
+	background-color: teal;
+	color: white;
+	padding: 10px 15px;
 `;
 
-const Circle = styled(Box)`
-	border-radius: 100%;
+const Input = styled.input.attrs({ required: true, minLength: 10 })`
+	background-color: tomato;
 `;
 
 function App() {
 	return (
-		<Father>
-			<Box bgColor="skyblue" />
-			<Circle bgColor="yellowgreen" />
-		</Father>
+		<Container>
+			<Input />
+			<Input />
+			<Input />
+			<Input />
+			<Input />
+			<Btn as="a">Log in</Btn>
+		</Container>
 	);
 }
 
