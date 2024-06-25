@@ -1,30 +1,52 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
-const Container = styled.div`
+const Wrapper = styled.div`
 	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
 `;
 
-const Btn = styled.button`
-	border: none;
-	background-color: teal;
-	color: white;
-	padding: 10px 15px;
+const rotating = keyframes`
+	0% {
+		transform: rotate(0deg);
+		border-radius: 0;
+	}
+	50% {
+		border-radius: 100%;
+	}
+	100%{
+		transform: rotate(360deg);
+	}
 `;
 
-const Input = styled.input.attrs({ required: true, minLength: 10 })`
-	background-color: tomato;
+const Emoji = styled.span`
+	font-size: 36px;
+`;
+
+const Box = styled.div`
+	height: 200px;
+	width: 200px;
+	background-color: yellowgreen;
+	animation: ${rotating} 1s linear infinite;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	${Emoji} {
+		&:hover {
+			font-size: 98px;
+		}
+	}
 `;
 
 function App() {
 	return (
-		<Container>
-			<Input />
-			<Input />
-			<Input />
-			<Input />
-			<Input />
-			<Btn as="a">Log in</Btn>
-		</Container>
+		<Wrapper>
+			<Box>
+				<Emoji as="p">😎</Emoji>
+			</Box>
+			<Emoji>❤️‍🔥</Emoji>
+		</Wrapper>
 	);
 }
 
