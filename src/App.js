@@ -3,26 +3,21 @@ import styled from "styled-components";
 const Father = styled.div`
 	display: flex;
 `;
-const Child = styled.div`
+const Box = styled.div`
 	width: 100px;
 	height: 100px;
-	background-color: skyblue;
-	&:last-of-type {
-		background-color: yellowgreen;
-	}
+	background-color: ${props => props.bgColor};
 `;
 
-const Text = styled.span`
-	color: white;
+const Circle = styled(Box)`
+	border-radius: 100%;
 `;
 
 function App() {
 	return (
 		<Father>
-			<Child>
-				<Text>Hello</Text>
-			</Child>
-			<Child />
+			<Box bgColor="skyblue" />
+			<Circle bgColor="yellowgreen" />
 		</Father>
 	);
 }
