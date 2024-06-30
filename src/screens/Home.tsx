@@ -2,7 +2,9 @@ import { users } from "../db";
 import { Link, useSearchParams } from "react-router-dom";
 
 function Home() {
+	// eslint-disable-next-line
 	const [readSearchParams, setSearchParams] = useSearchParams();
+	console.log(readSearchParams);
 	setTimeout(() => {
 		setSearchParams({
 			day: "today",
