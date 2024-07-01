@@ -4,6 +4,8 @@ import styled from "styled-components";
 
 const Container = styled.div`
 	padding: 0px 20px;
+	max-width: 480px;
+	margin: 0 auto;
 `;
 
 const Header = styled.header`
@@ -21,7 +23,8 @@ const Coin = styled.li`
 	margin-bottom: 10px;
 	border-radius: 15px;
 	a {
-		display: block;
+		display: flex;
+		align-items: center;
 		padding: 20px;
 		transition: color 0.2s ease-in;
 	}
@@ -40,6 +43,12 @@ const Title = styled.h1`
 const Loader = styled.p`
 	text-align: center;
 	font-weight: 600;
+`;
+
+const Img = styled.img`
+	width: 35px;
+	height: 35px;
+	margin-right: 10px;
 `;
 interface ICoin {
 	id: string;
@@ -75,7 +84,10 @@ function Coins() {
 				<CoinsList>
 					{coins.map(coin => (
 						<Coin key={coin.id}>
-							<Link to={`/${coin.id}`}>{coin.name} &rarr;</Link>
+							<Link to={`/${coin.id}`} state={{ name: coin.name }}>
+								<Img src={`https://cryptoicon-api.pages.dev/icons/128/color/${coin.symbol.toLowerCase()}.png`} alt={coin.name} />
+								{coin.name} &rarr;
+							</Link>
 						</Coin>
 					))}
 				</CoinsList>
