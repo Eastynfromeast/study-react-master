@@ -1,6 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { fetchCoins } from "../api";
 
 const Container = styled.div`
 	padding: 0px 20px;
@@ -61,7 +63,13 @@ interface ICoin {
 }
 
 function Coins() {
-	const URL_COINS = "https://api.coinpaprika.com/v1/coins";
+	const { isLoading, data } = useQuery<ICoin[]>({
+		queryKey: ["allCoins"],
+		queryFn: fetchCoins,
+	});
+
+	/* 
+		const URL_COINS = "https://api.coinpaprika.com/v1/coins";
 	const [coins, setCoins] = useState<ICoin[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	useEffect(() => {
@@ -71,8 +79,7 @@ function Coins() {
 			setIsLoading(false);
 		};
 		getCoins();
-	}, [URL_COINS]);
-
+	}, [URL_COINS]); */
 	return (
 		<Container>
 			<Header>
@@ -82,7 +89,7 @@ function Coins() {
 				<Loader>We are loading... </Loader>
 			) : (
 				<CoinsList>
-					{coins.map(coin => (
+					{data?.map(coin => (
 						<Coin key={coin.id}>
 							<Link to={`/${coin.id}`} state={{ name: coin.name }}>
 								<Img src={`https://cryptoicon-api.pages.dev/icons/128/color/${coin.symbol.toLowerCase()}.png`} alt={coin.name} />

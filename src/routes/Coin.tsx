@@ -131,9 +131,9 @@ interface IPriceInfo {
 }
 
 function Coin() {
-	const [isLoading, setIsLoading] = useState(true);
 	const { coinId } = useParams<string>();
 	const { state } = useLocation() as IRouteState; // react-router-dom v6 에서는 제너릭 지원 안함
+	const [isLoading, setIsLoading] = useState(true);
 	const [info, setInfo] = useState<ICoinInfo>();
 	const [priceInfo, setPriceInfo] = useState<IPriceInfo>();
 	const priceMatch = useMatch("/:coinId/price");

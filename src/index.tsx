@@ -6,8 +6,11 @@ import { theme } from "./theme";
 import { RouterProvider } from "react-router-dom";
 import router from "./Router";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
+
+const queryClient = new QueryClient();
 
 const GlobalStyle = createGlobalStyle`
     /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -77,17 +80,19 @@ a {
 
 root.render(
 	<React.StrictMode>
-		<ThemeProvider theme={theme}>
-			<GlobalStyle />
-			<HelmetProvider>
-				<Helmet>
-					<title>Crypto Tracker</title>
-					<link rel="preconnect" href="https://fonts.googleapis.com" />
-					<link rel="preconnect" href="https://fonts.gstatic.com" />
-					<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet" />
-				</Helmet>
-			</HelmetProvider>
-			<RouterProvider router={router} />
-		</ThemeProvider>
+		<QueryClientProvider client={queryClient}>
+			<ThemeProvider theme={theme}>
+				<GlobalStyle />
+				<HelmetProvider>
+					<Helmet>
+						<title>Crypto Tracker</title>
+						<link rel="preconnect" href="https://fonts.googleapis.com" />
+						<link rel="preconnect" href="https://fonts.gstatic.com" />
+						<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet" />
+					</Helmet>
+				</HelmetProvider>
+				<RouterProvider router={router} />
+			</ThemeProvider>
+		</QueryClientProvider>
 	</React.StrictMode>
 );
