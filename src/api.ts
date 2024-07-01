@@ -1,8 +1,16 @@
 /*
     fetcher fn should return promise
 */
+const BASE_URL = `https://api.coinpaprika.com/v1`;
 
-const URL_COINS = "https://api.coinpaprika.com/v1/coins";
 export function fetchCoins() {
-	return fetch(URL_COINS).then(res => res.json());
+	return fetch(`${BASE_URL}/coins`).then(res => res.json());
+}
+
+export function fecthCoinInfo(coinId: string) {
+	return fetch(`${BASE_URL}/coins/${coinId}`).then(res => res.json());
+}
+
+export function fetchCoinPriceInfo(coinId: string) {
+	return fetch(`${BASE_URL}/tickers/${coinId}`).then(res => res.json());
 }
