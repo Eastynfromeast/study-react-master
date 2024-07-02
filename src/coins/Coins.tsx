@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
 import { useSetRecoilState } from "recoil";
-import { isDarkAtom } from "../atom";
 
 const Container = styled.div`
 	padding: 0px 20px;
@@ -69,8 +68,8 @@ function Coins() {
 		queryFn: () => fetchCoins(50),
 	});
 
-	const setDarkAtom = useSetRecoilState(isDarkAtom);
-	const toggleDarkAtom = () => setDarkAtom(prev => !prev);
+	/* 	const setDarkAtom = useSetRecoilState(isDarkAtom);
+	const toggleDarkAtom = () => setDarkAtom(prev => !prev); */
 
 	/* 
 		const URL_COINS = "https://api.coinpaprika.com/v1/coins";
@@ -88,7 +87,7 @@ function Coins() {
 		<Container>
 			<Header>
 				<Title>Coins</Title>
-				<button onClick={toggleDarkAtom}>Toggle Theme</button>
+				{/* <button onClick={toggleDarkAtom}>Toggle Theme</button> */}
 			</Header>
 			{isLoading ? (
 				<Loader>We are loading... </Loader>
