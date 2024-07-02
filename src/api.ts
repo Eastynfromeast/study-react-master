@@ -3,8 +3,10 @@
 */
 const BASE_URL = `https://api.coinpaprika.com/v1`;
 
-export function fetchCoins() {
-	return fetch(`${BASE_URL}/coins`).then(res => res.json());
+export function fetchCoins(length: number) {
+	return fetch(`${BASE_URL}/coins`)
+		.then(res => res.json())
+		.then(json => json.slice(0, length));
 }
 
 export function fecthCoinInfo(coinId: string) {

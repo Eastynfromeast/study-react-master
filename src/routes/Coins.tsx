@@ -64,7 +64,7 @@ interface ICoin {
 function Coins() {
 	const { isLoading, data } = useQuery<ICoin[]>({
 		queryKey: ["allCoins"],
-		queryFn: fetchCoins,
+		queryFn: () => fetchCoins(50),
 	});
 
 	/* 
