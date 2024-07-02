@@ -1,7 +1,8 @@
 import { Outlet } from "react-router-dom";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { darkTheme, lightTheme } from "./theme";
-import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atom";
 
 const GlobalStyle = createGlobalStyle`
     /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -70,16 +71,21 @@ a {
 `;
 
 function App() {
-	const [isDark, setIsDark] = useState(false);
-	const toggleDark = () => setIsDark(prev => !prev);
+	const isDark = useRecoilValue(isDarkAtom);
 	return (
 		<>
 			<ThemeProvider theme={isDark ? darkTheme : lightTheme}>
 				<GlobalStyle />
-				<Outlet context={{ toggleDark, isDark }} />
+				<Outlet />
 			</ThemeProvider>
 		</>
 	);
 }
 
 export default App;
+
+/*
+	// eslint-disable-next-line
+	global state
+		state management
+*/
