@@ -1,8 +1,4 @@
-import { Outlet } from "react-router-dom";
-import { ThemeProvider, createGlobalStyle } from "styled-components";
-import { darkTheme, lightTheme } from "./theme";
-import { useRecoilValue } from "recoil";
-import { isDarkAtom } from "./atom";
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
     /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -71,13 +67,9 @@ a {
 `;
 
 function App() {
-	const isDark = useRecoilValue(isDarkAtom);
 	return (
 		<>
-			<ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-				<GlobalStyle />
-				<Outlet />
-			</ThemeProvider>
+			<GlobalStyle />
 		</>
 	);
 }
