@@ -26,9 +26,10 @@ interface IFormData {
 	email: string;
 	firstName: string;
 	lastName: string;
+	userName: string;
 	password: string;
 	password1: string;
-	userName: string;
+	extraError?: string;
 }
 
 function ToDoList() {
@@ -36,11 +37,18 @@ function ToDoList() {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<IFormData>();
-	const onValid = (data: any) => {
-		console.log(data);
+		setError,
+	} = useForm<IFormData>({
+		defaultValues: {
+			email: "@naver.com",
+		},
+	});
+	const onValid = (data: IFormData) => {
+		if (data.password !== data.password1) {
+			setError("password1", { message: "Password are not the same" }, { shouldFocus: true });
+		}
+		// setError("extraError", { message: "Server offline." });
 	};
-
 	console.log(errors);
 	return (
 		<div style={{ maxWidth: 480, margin: "0 auto" }}>
@@ -64,7 +72,11 @@ function ToDoList() {
 				<p>{errors?.email?.message}</p>
 				<input
 					{...register("firstName", {
-						required: true,
+						required: "Write your first name",
+						validate: {
+							noJane: value => (value.includes("jane") ? "no jane allowed" : true),
+							noDoe: value => (value.includes("doe") ? "no doe allowed" : true),
+						},
 					})}
 					placeholder="First Name"
 				/>
@@ -80,8 +92,8 @@ function ToDoList() {
 					{...register("userName", {
 						required: true,
 						minLength: {
-							value: 10,
-							message: "Your password is too short",
+							value: 4,
+							message: "Your name is too short",
 						},
 					})}
 					placeholder="User Name"
@@ -108,8 +120,9 @@ function ToDoList() {
 					})}
 					placeholder="Password Validation"
 				/>
-				{errors.password && <p>{errors?.password?.message}</p>}
+				<p>{errors?.password1?.message}</p>
 				<button>Add</button>
+				<p>{errors?.extraError?.message}</p>
 			</form>
 		</div>
 	);
