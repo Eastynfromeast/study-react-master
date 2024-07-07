@@ -1,5 +1,6 @@
 import styled, { createGlobalStyle } from "styled-components";
 import { motion } from "framer-motion";
+import { useRef } from "react";
 
 const GlobalStyle = createGlobalStyle`
     /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -96,18 +97,31 @@ const Circle = styled(motion.div)`
 	font-size: 0;
 `;
 
+const BiggerBox = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 600px;
+	height: 600px;
+	background-color: rgba(255, 255, 255, 0.4);
+	border-radius: 40px;
+	overflow: hidden;
+`;
+
 const boxVariants = {
-	hover: { scale: 1.5, rotateZ: 90 },
+	hover: { rotateZ: 90 },
 	click: { borderRadius: "100%", scale: 1 },
-	drag: { backgroundColor: "rgb(244,244,2)", transition: { duration: 3 } },
 };
 
 function App() {
+	const biggerBoxRef = useRef<HTMLDivElement>(null);
 	return (
 		<>
 			<GlobalStyle />
 			<Wrapper>
-				<Box drag variants={boxVariants} whileHover="hover" whileDrag="drag" whileTap="click" />
+				<BiggerBox ref={biggerBoxRef}>
+					<Box drag dragSnapToOrigin dragElastic={0} dragConstraints={biggerBoxRef} variants={boxVariants} whileHover="hover" whileTap="click" />
+				</BiggerBox>
 			</Wrapper>
 		</>
 	);
