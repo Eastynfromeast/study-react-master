@@ -118,7 +118,7 @@ function App() {
 		<>
 			<GlobalStyle />
 			<Wrapper>
-				<Box style={{ x }} drag dragSnapToOrigin />
+				<Box style={{ x, scale: popo }} drag dragSnapToOrigin />
 			</Wrapper>
 		</>
 	);
