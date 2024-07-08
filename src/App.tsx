@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components";
-import { motion, useMotionValue, useMotionValueEvent } from "framer-motion";
+import { motion, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
 import { useEffect, useRef } from "react";
 
 const GlobalStyle = createGlobalStyle`
@@ -109,14 +109,15 @@ function App() {
 			console.log(x.get());
 		});
 	}, [x]); */
-	useMotionValueEvent(x, "change", latest => {
-		console.log(latest);
+	const popo = useTransform(x, [-400, 0, 400], [2, 1, 0.1]);
+	useMotionValueEvent(popo, "change", el => {
+		console.log(el);
 	});
+
 	return (
 		<>
 			<GlobalStyle />
 			<Wrapper>
-				<button onClick={() => x.set(200)}>click me</button>
 				<Box style={{ x }} drag dragSnapToOrigin />
 			</Wrapper>
 		</>
