@@ -1,6 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components";
-import { motion, useMotionValue, useMotionValueEvent, useTransform } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { motion, useMotionValue, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
 
 const GlobalStyle = createGlobalStyle`
     /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -68,13 +67,13 @@ a {
 }
 `;
 
-const Wrapper = styled.div`
-	height: 100vh;
+const Wrapper = styled(motion.div)`
+	height: 200vh;
 	width: 100vw;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: #2a22c0;
+	background: linear-gradient(135deg, rgb(238, 0, 153), rgb(221, 0, 238));
 `;
 
 const Box = styled(motion.div)`
@@ -109,16 +108,27 @@ function App() {
 			console.log(x.get());
 		});
 	}, [x]); */
-	const popo = useTransform(x, [-400, 0, 400], [2, 1, 0.1]);
-	useMotionValueEvent(popo, "change", el => {
+	const rotateZ = useTransform(x, [-400, 400], [-360, 360]);
+	useMotionValueEvent(rotateZ, "change", el => {
 		console.log(el);
 	});
+	const gradient = useTransform(
+		x,
+		[-400, 0, 400],
+		[
+			"linear-gradient(135deg, rgb(0, 202, 238), rgb(0, 12, 238))",
+			"linear-gradient(135deg, rgb(205, 152, 187), rgb(111, 22, 117))",
+			"linear-gradient(135deg, rgb(223, 227, 146), rgb(12, 153, 19))",
+		]
+	);
+	const { scrollYProgress } = useScroll();
+	const scale = useTransform(scrollYProgress, [0, 1], [1, 5]);
 
 	return (
 		<>
 			<GlobalStyle />
-			<Wrapper>
-				<Box style={{ x, scale: popo }} drag dragSnapToOrigin />
+			<Wrapper style={{ background: gradient }}>
+				<Box style={{ x, rotateZ, scale }} drag="x" dragSnapToOrigin />
 			</Wrapper>
 		</>
 	);
