@@ -1,5 +1,5 @@
 import styled, { createGlobalStyle } from "styled-components";
-import { AnimatePresence, motion, useMotionValue, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
 const GlobalStyle = createGlobalStyle`
@@ -74,6 +74,7 @@ const Wrapper = styled(motion.div)`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	flex-direction: column;
 	background: linear-gradient(135deg, rgb(238, 0, 153), rgb(221, 0, 238));
 `;
 const Box = styled(motion.div)`
@@ -81,37 +82,58 @@ const Box = styled(motion.div)`
 	height: 200px;
 	background-color: rgba(255, 255, 255, 1);
 	border-radius: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 28px;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
 	position: absolute;
 	top: 100px;
-	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
 `;
 
-const boxVariant = {
-	initial: {
+const boxVariants = {
+	invisible: {
+		x: 500,
 		opacity: 0,
 		scale: 0,
 	},
 	visible: {
+		x: 0,
 		opacity: 1,
 		scale: 1,
-		rotateZ: 360,
+		transition: {
+			duration: 1,
+		},
 	},
 	leaving: {
+		x: -500,
 		opacity: 0,
 		scale: 0,
-		y: 50,
+		transition: {
+			duration: 0.5,
+		},
 	},
 };
 
 function App() {
-	const [isVisible, setIsVisible] = useState(false);
-	const onClick = () => setIsVisible(prev => !prev);
+	const [isVisible, setIsVisible] = useState(1);
+	const onClickPrev = () => setIsVisible(prev => (prev === 1 ? 1 : prev - 1));
+	const onClickNext = () => setIsVisible(prev => (prev === 10 ? 10 : prev + 1));
 	return (
 		<>
 			<GlobalStyle />
 			<Wrapper>
-				<button onClick={onClick}>Click</button>
-				<AnimatePresence>{isVisible && <Box variants={boxVariant} initial="initial" animate="visible" exit="leaving" />}</AnimatePresence>
+				<AnimatePresence>
+					{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i =>
+						i === isVisible ? (
+							<Box key={i} variants={boxVariants} initial="invisible" animate="visible" exit="leaving">
+								{i}
+							</Box>
+						) : null
+					)}
+				</AnimatePresence>
+				<button onClick={onClickPrev}>prev</button>
+				<button onClick={onClickNext}>next</button>
 			</Wrapper>
 		</>
 	);
