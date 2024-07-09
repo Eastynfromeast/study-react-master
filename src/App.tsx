@@ -72,83 +72,42 @@ const Wrapper = styled(motion.div)`
 	height: 100vh;
 	width: 100vw;
 	display: flex;
-	justify-content: center;
+	justify-content: space-around;
 	align-items: center;
 	flex-direction: column;
 	background: linear-gradient(135deg, rgb(131, 188, 217), rgb(0, 79, 238));
 `;
 const Box = styled(motion.div)`
 	width: 400px;
-	height: 200px;
+	height: 400px;
 	background-color: rgba(255, 255, 255, 1);
 	border-radius: 40px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: 28px;
 	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
-	position: absolute;
-	top: 200px;
 `;
 
-const boxVariants = {
-	entry: (isBack: boolean) => ({
-		x: isBack ? -500 : 500,
-		opacity: 0,
-		scale: 0,
-		transition: {
-			duration: 0.3,
-		},
-	}),
-	center: {
-		x: 0,
-		opacity: 1,
-		scale: 1,
-		transition: {
-			duration: 0.3,
-		},
-	},
-	exit: (isBack: boolean) => ({
-		x: isBack ? 500 : -500,
-		opacity: 0,
-		scale: 0,
-		transition: {
-			duration: 0.3,
-		},
-	}),
-};
+const Circle = styled(motion.div)`
+	background-color: #00a5ff;
+	width: 100px;
+	height: 100px;
+	border-radius: 50px;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+`;
 
 function App() {
-	const [counter, setCounter] = useState(1);
-	const [isBack, setIsBack] = useState(false);
-	const onClickPrev = () => {
-		setIsBack(true);
-		setCounter(prev => (prev === 1 ? 1 : prev - 1));
-	};
-	const onClickNext = () => {
-		setIsBack(false);
-		setCounter(prev => (prev === 10 ? 10 : prev + 1));
-	};
+	const [isClicked, setIsClicked] = useState(false);
+	const toggleIsClicked = () => setIsClicked(prev => !prev);
 	return (
 		<>
 			<GlobalStyle />
-			<Wrapper>
-				<AnimatePresence mode="wait" custom={isBack}>
-					<Box custom={isBack} key={counter} variants={boxVariants} initial="entry" animate="center" exit="exit">
-						{counter}
-					</Box>
-				</AnimatePresence>
-				<button onClick={onClickPrev}>prev</button>
-				<button onClick={onClickNext}>next</button>
+			<Wrapper onClick={toggleIsClicked}>
+				<Box>{!isClicked ? <Circle layoutId="circle" style={{ borderRadius: "50px" }} /> : null}</Box>
+				<Box>{isClicked ? <Circle layoutId="circle" style={{ borderRadius: 0, scale: 2 }} /> : null}</Box>
 			</Wrapper>
 		</>
 	);
 }
 
 export default App;
-
-/*
-	// eslint-disable-next-line
-	global state
-		state management
-*/
