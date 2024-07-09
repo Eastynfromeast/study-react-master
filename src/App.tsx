@@ -75,7 +75,7 @@ const Wrapper = styled(motion.div)`
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	background: linear-gradient(135deg, rgb(238, 0, 153), rgb(221, 0, 238));
+	background: linear-gradient(135deg, rgb(131, 188, 217), rgb(0, 79, 238));
 `;
 const Box = styled(motion.div)`
 	width: 400px;
@@ -88,49 +88,55 @@ const Box = styled(motion.div)`
 	font-size: 28px;
 	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
 	position: absolute;
-	top: 100px;
+	top: 200px;
 `;
 
 const boxVariants = {
-	invisible: {
-		x: 500,
+	entry: (isBack: boolean) => ({
+		x: isBack ? -500 : 500,
 		opacity: 0,
 		scale: 0,
-	},
-	visible: {
+		transition: {
+			duration: 0.3,
+		},
+	}),
+	center: {
 		x: 0,
 		opacity: 1,
 		scale: 1,
 		transition: {
-			duration: 1,
+			duration: 0.3,
 		},
 	},
-	leaving: {
-		x: -500,
+	exit: (isBack: boolean) => ({
+		x: isBack ? 500 : -500,
 		opacity: 0,
 		scale: 0,
 		transition: {
-			duration: 0.5,
+			duration: 0.3,
 		},
-	},
+	}),
 };
 
 function App() {
-	const [isVisible, setIsVisible] = useState(1);
-	const onClickPrev = () => setIsVisible(prev => (prev === 1 ? 1 : prev - 1));
-	const onClickNext = () => setIsVisible(prev => (prev === 10 ? 10 : prev + 1));
+	const [counter, setCounter] = useState(1);
+	const [isBack, setIsBack] = useState(false);
+	const onClickPrev = () => {
+		setIsBack(true);
+		setCounter(prev => (prev === 1 ? 1 : prev - 1));
+	};
+	const onClickNext = () => {
+		setIsBack(false);
+		setCounter(prev => (prev === 10 ? 10 : prev + 1));
+	};
 	return (
 		<>
 			<GlobalStyle />
 			<Wrapper>
-				<AnimatePresence>
-					{[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i =>
-						i === isVisible ? (
-							<Box key={i} variants={boxVariants} initial="invisible" animate="visible" exit="leaving">
-								{i}
-							</Box>
-						) : null
-					)}
+				<AnimatePresence mode="wait" custom={isBack}>
+					<Box custom={isBack} key={counter} variants={boxVariants} initial="entry" animate="center" exit="exit">
+						{counter}
+					</Box>
 				</AnimatePresence>
 				<button onClick={onClickPrev}>prev</button>
 				<button onClick={onClickNext}>next</button>
